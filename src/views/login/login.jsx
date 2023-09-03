@@ -1,4 +1,5 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
 import "./login.scss"
 
@@ -14,9 +15,15 @@ class Login extends React.Component {
         console.log("Senha: ", this.state.senha)
     }
 
+    cadastrar = () => {
+        this.props.navigate('/cadastro-usuario');
+    }
+    
     render() {
+        
         return (
-            <>
+            <>  
+                
                 <div className="container">
 
                     <div className="card border-primary mb-3">
@@ -46,7 +53,7 @@ class Login extends React.Component {
                             </div>
                             <div className="button-group">
                                 <button onClick={this.entrar} type="button" className="btn btn-success">Entrar</button>
-                                <button type="button" className="btn btn-danger">Cadastrar</button>
+                                <button onClick={this.cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
                             </div>
                         </form>
 
@@ -60,4 +67,9 @@ class Login extends React.Component {
 
 }
 
-export default Login
+const withNavigation = (Component) => {
+    return props => <Component {...props} navigate={useNavigate()} />;
+} 
+
+export default withNavigation(Login)
+

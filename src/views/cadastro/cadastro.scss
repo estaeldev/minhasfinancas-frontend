@@ -1,6 +1,11 @@
 
-.container {
-    width: 1000px;
+.container-cadastro {
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    
+    width: 100%;
+    max-width: 1000px;
     
     .card-body {
         display: flex;

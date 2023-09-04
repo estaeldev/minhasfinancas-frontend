@@ -1,7 +1,7 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
 import "./cadastro.scss"
-import { useNavigate } from "react-router-dom"
 
 class CadastroUsuario extends React.Component {
 
@@ -23,7 +23,7 @@ class CadastroUsuario extends React.Component {
     render() {
         return (
             <>
-                <div className="container">
+                <div className="container-cadastro">
 
                     <div className="card border-primary mb-3">
 
@@ -71,7 +71,7 @@ class CadastroUsuario extends React.Component {
                             </div>
                             <div className="button-group">
                                 <button onClick={this.cadastrar} type="button" className="btn btn-success">Salvar</button>
-                                <button onClick={this.voltar} type="button" className="btn btn-danger">Voltar</button>
+                                <button onClick={this.voltar} type="button" className="btn btn-danger">Cancelar</button>
                             </div>
                         </form>
 

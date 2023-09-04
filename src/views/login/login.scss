@@ -1,12 +1,18 @@
 
-.container {
+.container-login {
     
-    width: 600px;
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 50%;
 
     .card-header h2 {
         font-size: 36px;
     }
-
+    
     .card-body {
         display: flex;
         flex-direction: column;
@@ -20,3 +26,14 @@
     }
 
 }
+
+.alert-error {
+    position: fixed;
+    top: 50px;
+    right: 30px;
+
+    width: 300px;
+    height: 100px;
+
+}
+

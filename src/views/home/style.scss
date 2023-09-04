@@ -1,0 +1,19 @@
+.container-home {
+
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 50%;
+
+
+    .button-group {
+        display: flex;
+        column-gap: 10px;
+    }
+
+}

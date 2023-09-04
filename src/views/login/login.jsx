@@ -1,75 +1,86 @@
-import React from "react"
+import axios from "axios"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
 import "./login.scss"
 
-class Login extends React.Component {
+function Login() {
+    const [email, setEmail] = useState("") 
+    const [senha, setSenha] = useState("")
+    const [mensagemErro, setMensagemErro] = useState(null)
+    const navigate = useNavigate()
 
-    state = {
-        email: "",
-        senha: ""
-    }
-
-    entrar = () => {
-        console.log("Email: ", this.state.email)
-        console.log("Senha: ", this.state.senha)
-    }
-
-    cadastrar = () => {
-        this.props.navigate('/cadastro-usuario');
+    const entrar = async () => {
+        await axios.post("http://localhost:8080/api/usuarios/auth", {
+            email: email,
+            senha: senha
+        }).then((response) => {
+            localStorage.setItem("_usuarioLogado", JSON.stringify(response.data))
+            navigate("/home")
+        }).catch(error => {
+            setMensagemErro(error.response.data.message)
+            console.log(mensagemErro)
+        })
     }
     
-    render() {
-        
-        return (
-            <>  
-                
-                <div className="container">
+    const cadastrar = () => {
+        navigate('/cadastro-usuario');
+    }
+    
+    const fecharError = () => {
+        setMensagemErro(null)
+    } 
 
-                    <div className="card border-primary mb-3">
+    return (
+        <>  
+            <div className="container-login">
 
-                        <div className="card-header">
-                            <h2>Login</h2>
-                        </div>
-                        
-                        <form className="card-body">
-                            <div className="form-group">
-                                <FormGroup label="Email: *">
-                                    <input type="email" 
-                                            onChange={event => this.setState({email: event.target.value})}
-                                            className="form-control" 
-                                            placeholder="Enter email">
-                                    </input>
-                                </FormGroup>
-                            </div>
-                            <div className="form-group">
-                                <FormGroup label="Senha: *">
-                                    <input type="password" 
-                                            onChange={event => this.setState({senha: event.target.value})}
-                                            className="form-control" 
-                                            placeholder="Password">
-                                    </input>
-                                </FormGroup>
-                            </div>
-                            <div className="button-group">
-                                <button onClick={this.entrar} type="button" className="btn btn-success">Entrar</button>
-                                <button onClick={this.cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
-                            </div>
-                        </form>
+                <div className="card border-primary mb-3">
 
+                    <div className="card-header">
+                        <h2>Login</h2>
                     </div>
+                    
+                    <form className="card-body">
+                        <div className="form-group">
+                            <FormGroup label="Email: *">
+                                <input type="email" 
+                                        onChange={event => setEmail(event.target.value)}
+                                        className="form-control" 
+                                        placeholder="Enter email">
+                                </input>
+                            </FormGroup>
+                        </div>
+                        <div className="form-group">
+                            <FormGroup label="Senha: *">
+                                <input type="password" 
+                                        onChange={event => setSenha(event.target.value)}
+                                        className="form-control" 
+                                        placeholder="Password">
+                                </input>
+                            </FormGroup>
+                        </div>
+                        <div className="button-group">
+                            <button onClick={entrar} type="button" className="btn btn-success">Entrar</button>
+                            <button onClick={cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                        </div>
+                    </form>
 
                 </div>
 
-            </>
-        )
-    }
+            </div>
 
+            {mensagemErro && (
+                <div className="alert alert-dismissible alert-danger alert-error">
+                    <button onClick={fecharError} type="button" className="btn-close"></button>
+                    <strong>{mensagemErro}</strong>
+                </div>
+            )}
+
+        </>
+    )
 }
 
-const withNavigation = (Component) => {
-    return props => <Component {...props} navigate={useNavigate()} />;
-} 
 
-export default withNavigation(Login)
+export default Login
 

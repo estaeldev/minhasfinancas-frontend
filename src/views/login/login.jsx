@@ -1,7 +1,7 @@
-import axios from "axios"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
+import UsuarioService from "../../service/usuarioService"
 import "./login.scss"
 
 function Login() {
@@ -9,9 +9,10 @@ function Login() {
     const [senha, setSenha] = useState("")
     const [mensagemErro, setMensagemErro] = useState(null)
     const navigate = useNavigate()
+    const service = UsuarioService()
 
     const entrar = async () => {
-        await axios.post("http://localhost:8080/api/usuarios/auth", {
+        await service.autenticar({
             email: email,
             senha: senha
         }).then((response) => {
@@ -19,7 +20,6 @@ function Login() {
             navigate("/home")
         }).catch(error => {
             setMensagemErro(error.response.data.message)
-            console.log(mensagemErro)
         })
     }
     

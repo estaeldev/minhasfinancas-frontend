@@ -22,7 +22,7 @@ function NavBar() {
                                 <Link className="nav-link" to={"/cadastro-usuario"}>Usuários</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/"}>Lançamentos</Link>
+                                <Link className="nav-link" to={"/lancamentos"}>Lançamentos</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to={"/login"}>Login</Link>

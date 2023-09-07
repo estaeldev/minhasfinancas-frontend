@@ -11,9 +11,13 @@ function UsuarioService() {
     const obterSaldoPorIdUsuario = (usuarioId) => {
         return apiService.get(`/${usuarioId}/saldo`)
     }
-        
+
+    const salvar = (usuario) => {
+        return apiService.post("", usuario)
+    }
+    
     return {
-        autenticar, obterSaldoPorIdUsuario
+        autenticar, obterSaldoPorIdUsuario, salvar
     }
 
 }

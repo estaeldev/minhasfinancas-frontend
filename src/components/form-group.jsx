@@ -2,7 +2,7 @@
 function FormGroup(props) {
     return (
         <>
-            <div>
+            <div className="form-group">
                 <label>{props.label}</label>
                 {props.children}
             </div>

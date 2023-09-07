@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./style.scss";
-import UsuarioService from "../../service/usuarioService";
+import { Link } from "react-router-dom";
+import ButtonGroup from "../../components/button-group";
 import LocalStorage from "../../service/localstorageService";
+import UsuarioService from "../../service/usuarioService";
+import "./style.scss";
 
 function Home() {
     const [saldo, setSaldo] = useState(0)
-    const navigate = useNavigate()
     const usuarioService = UsuarioService()
     const localStorageService = LocalStorage()
 
-    const cadastrar = () => {
-        navigate("/cadastro-usuario")
-    }
-    
     useEffect(() => {
         const usuarioLogado = localStorageService.getItem("_usuarioLogado")
         usuarioService.obterSaldoPorIdUsuario(`${usuarioLogado.id}`)
@@ -34,10 +30,10 @@ function Home() {
                     <p className="lead">Seu saldo para o mês atual é de R$ {saldo}</p>
                     <hr className="my-4"></hr>
                     <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
-                    <div className="button-group">
-                        <Link onClick={cadastrar} className="btn btn-primary btn-lg" to={"/cadastro-usuario"}>Cadastrar Usuário</Link>
-                        <Link className="btn btn-danger btn-lg" to={"/"}>Cadastrar Lançamento</Link>
-                    </div>
+                    <ButtonGroup>
+                        <Link className="btn btn-primary btn-lg" to={"/cadastro-usuario"}>Cadastrar Usuário</Link>
+                        <Link className="btn btn-danger btn-lg" to={"/lancamentos"}>Cadastrar Lançamento</Link>
+                    </ButtonGroup>
                 </div>
             </div>
         </>

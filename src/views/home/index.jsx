@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.scss";
-import axios from "axios";
+import UsuarioService from "../../service/usuarioService";
+import LocalStorage from "../../service/localstorageService";
 
 function Home() {
     const [saldo, setSaldo] = useState(0)
     const navigate = useNavigate()
+    const usuarioService = UsuarioService()
+    const localStorageService = LocalStorage()
 
     const cadastrar = () => {
         navigate("/cadastro-usuario")
     }
     
     useEffect(() => {
-        const usuarioLogado = JSON.parse(localStorage.getItem("_usuarioLogado"))
-        axios.get(`http://localhost:8080/api/usuarios/${usuarioLogado.id}/saldo`)
+        const usuarioLogado = localStorageService.getItem("_usuarioLogado")
+        usuarioService.obterSaldoPorIdUsuario(`${usuarioLogado.id}`)
         .then(response => {
             setSaldo(response.data)
         }).catch(() => {
             setSaldo(0)
         })
 
-    }, [])
+    }, [usuarioService, localStorageService])
     
     return (
         <>

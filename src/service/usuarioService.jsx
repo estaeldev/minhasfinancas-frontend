@@ -7,9 +7,13 @@ function UsuarioService() {
     const autenticar = (credenciais) => {
         return apiService.post("/auth", credenciais)
     }
-    
+
+    const obterSaldoPorIdUsuario = (usuarioId) => {
+        return apiService.get(`/${usuarioId}/saldo`)
+    }
+        
     return {
-        autenticar
+        autenticar, obterSaldoPorIdUsuario
     }
 
 }

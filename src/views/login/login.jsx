@@ -1,35 +1,34 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormGroup from "../../components/form-group"
+import { mensagemErro, mensagemSucesso } from "../../components/toastr"
+import LocalStorage from "../../service/localstorageService"
 import UsuarioService from "../../service/usuarioService"
 import "./login.scss"
 
 function Login() {
     const [email, setEmail] = useState("") 
     const [senha, setSenha] = useState("")
-    const [mensagemErro, setMensagemErro] = useState(null)
     const navigate = useNavigate()
     const service = UsuarioService()
-
+    const localStorageService = LocalStorage()
+    
     const entrar = async () => {
         await service.autenticar({
             email: email,
             senha: senha
         }).then((response) => {
-            localStorage.setItem("_usuarioLogado", JSON.stringify(response.data))
+            localStorageService.addItem("_usuarioLogado", response.data)
+            mensagemSucesso("Usuario logado com sucesso!")
             navigate("/home")
         }).catch(error => {
-            setMensagemErro(error.response.data.message)
+            mensagemErro(error.response.data.message)
         })
     }
     
     const cadastrar = () => {
         navigate('/cadastro-usuario');
     }
-    
-    const fecharError = () => {
-        setMensagemErro(null)
-    } 
 
     return (
         <>  
@@ -69,13 +68,6 @@ function Login() {
                 </div>
 
             </div>
-
-            {mensagemErro && (
-                <div className="alert alert-dismissible alert-danger alert-error">
-                    <button onClick={fecharError} type="button" className="btn-close"></button>
-                    <strong>{mensagemErro}</strong>
-                </div>
-            )}
 
         </>
     )

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function ApiService(props) {
-    const {apiUrl} = props
+    const apiUrl = props.apiUrl
     
     const httpClient = axios.create({
         baseURL: "http://localhost:8080"
@@ -19,10 +19,10 @@ function ApiService(props) {
         return httpClient.delete(apiUrl + url)
     }   
 
-    const get = (url) => {
-        return httpClient.get(apiUrl + url)
+    const get = (url, config) => {
+        return httpClient.get(apiUrl + url, config)
     }
-
+    
     return {
         post, put, remove, get
     }

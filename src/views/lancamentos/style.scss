@@ -12,14 +12,13 @@
         flex-direction: column;
         row-gap: 20px;
         width: 50%;
-        
-        .button-group {
-            display: flex;
-            column-gap: 10px;
-        }
-        
     }
 
+}
+
+.button-group {
+    display: flex;
+    column-gap: 10px;
 }
 
 input::-webkit-inner-spin-button {

@@ -37,7 +37,7 @@ function LancamentoService() {
             }
         })
     }
-
+    
     const deletar = (id) => {
         return apiService.remove(`/${id}`)
     }

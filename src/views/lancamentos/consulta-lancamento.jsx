@@ -3,7 +3,7 @@ import ButtonGroup from "../../components/button-group"
 import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
 import SelectMenu from "../../components/select-menu"
-import { mensagemErro, mensagemSucesso } from "../../components/toastr"
+import { mensagemAlerta, mensagemErro, mensagemSucesso } from "../../components/toastr"
 import LancamentoService from "../../service/LancamentoService"
 import LocalStorage from "../../service/localstorageService"
 import LancamentoTable from "./LancamentosTable"
@@ -20,7 +20,7 @@ function ConsultaLancamento() {
     const lancamentoService = LancamentoService()
 
     const buscar = async () => {
-        if(!ano) {
+        if(!ano || String(ano).length !== 4) {
             mensagemErro("Informe um ano válido para filtrar.")
             return false
         }
@@ -35,9 +35,13 @@ function ConsultaLancamento() {
             usuarioId: id
         }
         
-        lancamentoService.buscar(lancamentoFiltro)
+        await lancamentoService.buscar(lancamentoFiltro)
         .then(response => {
-            console.log(response.data)
+            if(response.data.length === 0) {
+                setLancamentos([])
+                mensagemAlerta("Nenhum lançamento encontrado!")
+                return
+            }
             setLancamentos(response.data)
         }).catch(error => {
             console.log(error.response)
@@ -45,15 +49,16 @@ function ConsultaLancamento() {
     }   
 
     const deletar = async (lancamento) => {
-        lancamentoService.deletar(lancamento.id)
+        await lancamentoService.deletar(lancamento.id)
         .then(() => {
             const index = lancamentos.indexOf(lancamento)
             lancamentos.splice(index, 1)
-            
+            setLancamentos([...lancamentos])
             mensagemSucesso("Lançamento deletado com sucesso!")
         }).catch(() => {
             mensagemErro("Ocorreu um erro ao tentar deletar um lançamento")
         })
+        
     }
 
     const editar = (id) => {
@@ -72,6 +77,7 @@ function ConsultaLancamento() {
                                 className="form-control" 
                                 placeholder="Digite o ano">
                         </input>
+                        <small className="form-text text-muted">Ex. (yyyy)</small>
                     </FormGroup>
 
                     <FormGroup label="Descrição:">

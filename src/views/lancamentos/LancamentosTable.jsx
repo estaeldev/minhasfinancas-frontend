@@ -1,12 +1,12 @@
-import currencyFormatter from "currency-formatter"
-import ButtonGroup from "../../components/button-group"
-import "./style.scss"
+import currencyFormatter from "currency-formatter";
+import ButtonGroup from "../../components/button-group";
+import "./style.scss";
 
 function LancamentoTable(props) {
 
     const lancamentos = props.lancamentos
     const editar = props.editarAction
-    const deletar = props.deletarAction
+    const setDialogDelete = props.deletarAction
 
     return (
         <>
@@ -33,9 +33,17 @@ function LancamentoTable(props) {
                                 <td>{lancamento.tipo}</td>
                                 <td>{lancamento.status}</td>
                                 <td>
-                                    <ButtonGroup>
-                                        <button onClick={() => editar(lancamento.id)} type="button" className="btn btn-primary">Editar</button>
-                                        <button onClick={() => deletar(lancamento)} type="button" className="btn btn-danger">Deletar</button>
+                                    <ButtonGroup> 
+                                        <button onClick={() => editar(lancamento.id)} 
+                                                type="button" 
+                                                className="btn btn-primary">
+                                                Editar
+                                        </button>
+                                        <button onClick={() => setDialogDelete({visible: true, lancamento: lancamento})} 
+                                                type="button" 
+                                                className="btn btn-danger">
+                                                Deletar
+                                        </button>
                                     </ButtonGroup>
                                 </td>
                             </tr>

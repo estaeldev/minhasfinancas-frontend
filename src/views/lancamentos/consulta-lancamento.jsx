@@ -1,3 +1,4 @@
+import { ConfirmDialog } from "primereact/confirmdialog"
 import { useState } from "react"
 import ButtonGroup from "../../components/button-group"
 import Card from "../../components/card"
@@ -16,6 +17,7 @@ function ConsultaLancamento() {
     const [tipo, setTipo] = useState()
     const [descricao, setDescricao] = useState()
     const [lancamentos, setLancamentos] = useState([])
+    const [showDialogDelete, setDialogDelete] = useState({visible: false, lancamento: null})
     
     const lancamentoService = LancamentoService()
 
@@ -33,7 +35,7 @@ function ConsultaLancamento() {
             mes: mes,
             tipo: tipo,
             usuarioId: id
-        }
+        }   
         
         await lancamentoService.buscar(lancamentoFiltro)
         .then(response => {
@@ -60,7 +62,7 @@ function ConsultaLancamento() {
         })
         
     }
-
+    
     const editar = (id) => {
         console.log("Editando o lancamento id: ", id);
     }
@@ -103,9 +105,16 @@ function ConsultaLancamento() {
                     
                 </Card>
 
+                <LancamentoTable lancamentos={lancamentos} editarAction={editar} deletarAction={setDialogDelete} />
                 
-                <LancamentoTable lancamentos={lancamentos} editarAction={editar} deletarAction={deletar} />
-                
+                <ConfirmDialog  visible={showDialogDelete.visible} 
+                                onHide={() => setDialogDelete({visible: false})} 
+                                header="Confirmar Deleção ?" 
+                                message="Você deseja realmente deletar o lançamento ?" 
+                                icon="pi pi-exclamation-triangle"
+                                accept={() => deletar(showDialogDelete.lancamento)}>
+                </ConfirmDialog>
+
             </div>
 
         </>

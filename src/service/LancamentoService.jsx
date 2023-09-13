@@ -19,7 +19,7 @@ function LancamentoService() {
         {label: "Novembro", value:11},
         {label: "Dezembro", value:12}
     ]
-
+    
     const obterTiposLancamento = [
         {label: "Selecione...", value: ""},
         {label: "Despesa", value: "DESPESA"},
@@ -42,8 +42,12 @@ function LancamentoService() {
         return apiService.remove(`/${id}`)
     }
     
+    const salvar = (url, object, config) => {
+        return apiService.post(url, object, config)
+    }
+    
     return (
-        {buscar, deletar, obterListaMeses, obterTiposLancamento}
+        {buscar, deletar, salvar, obterListaMeses, obterTiposLancamento}
     )
     
 }

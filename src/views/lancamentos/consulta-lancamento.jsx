@@ -1,5 +1,6 @@
 import { ConfirmDialog } from "primereact/confirmdialog"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import ButtonGroup from "../../components/button-group"
 import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
@@ -12,16 +13,21 @@ import "./style.scss"
 
 function ConsultaLancamento() {
 
-    const [ano, setAno] = useState()
-    const [mes, setMes] = useState()
-    const [tipo, setTipo] = useState()
-    const [descricao, setDescricao] = useState()
+    const [lancamentoFiltro, setLancamentoFiltro] = useState({
+        ano: null,
+        mes: null,
+        tipo: null,
+        descricao: null,
+        usuarioId: null
+    })
     const [lancamentos, setLancamentos] = useState([])
     const [showDialogDelete, setDialogDelete] = useState({visible: false, lancamento: null})
     
     const lancamentoService = LancamentoService()
+    const navigate = useNavigate()
 
     const buscar = async () => {
+        const ano = lancamentoFiltro.ano
         if(!ano || String(ano).length !== 4) {
             mensagemErro("Informe um ano válido para filtrar.")
             return false
@@ -29,15 +35,7 @@ function ConsultaLancamento() {
         
         const {id} = LocalStorage().getItem("_usuarioLogado")
 
-        const lancamentoFiltro = {
-            descricao: descricao,
-            ano: ano,
-            mes: mes,
-            tipo: tipo,
-            usuarioId: id
-        }   
-        
-        await lancamentoService.buscar(lancamentoFiltro)
+        await lancamentoService.buscar({...lancamentoFiltro, usuarioId: id})
         .then(response => {
             if(response.data.length === 0) {
                 setLancamentos([])
@@ -67,6 +65,16 @@ function ConsultaLancamento() {
         console.log("Editando o lancamento id: ", id);
     }
 
+    const cadastrar = () => {
+        navigate("/cadastro-lancamentos")
+    }
+    
+    const handleChange = (event) => {
+        const value = event.target.value
+        const nome = event.target.name
+        setLancamentoFiltro({...lancamentoFiltro, [nome]: value})
+    }
+
     return (
         <>
             <div className="container-consulta-lacamento">
@@ -75,7 +83,8 @@ function ConsultaLancamento() {
 
                     <FormGroup label="Ano: *">
                         <input type="number" 
-                                onChange={event => setAno(event.target.value)}
+                                name="ano"
+                                onChange={handleChange}
                                 className="form-control" 
                                 placeholder="Digite o ano">
                         </input>
@@ -84,23 +93,24 @@ function ConsultaLancamento() {
 
                     <FormGroup label="Descrição:">
                         <input type="text" 
-                                onChange={event => setDescricao(event.target.value)}
+                                name="descricao"
+                                onChange={handleChange}
                                 className="form-control" 
                                 placeholder="Digite o ano">
                         </input>
                     </FormGroup>
                     
                     <FormGroup label="Mês:">
-                        <SelectMenu lista={lancamentoService.obterListaMeses} onChange={setMes} />
+                        <SelectMenu lista={lancamentoService.obterListaMeses} name="mes" onChange={handleChange} />
                     </FormGroup>
 
                     <FormGroup label="Tipo Lançamento:">
-                        <SelectMenu lista={lancamentoService.obterTiposLancamento} onChange={setTipo} />
+                        <SelectMenu lista={lancamentoService.obterTiposLancamento} name="tipo" onChange={handleChange} />
                     </FormGroup>
                     
                     <ButtonGroup>
                         <button onClick={buscar} type="button" className="btn btn-success">Buscar</button>
-                        <button type="button" className="btn btn-danger">Cadastrar</button>
+                        <button onClick={cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
                     </ButtonGroup>
                     
                 </Card>

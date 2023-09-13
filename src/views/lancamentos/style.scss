@@ -21,6 +21,24 @@
     column-gap: 10px;
 }
 
+.containei-cadastro-lancamento {
+
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    
+    width: 100%;
+    max-width: 900px;
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+    }
+
+}
+
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;

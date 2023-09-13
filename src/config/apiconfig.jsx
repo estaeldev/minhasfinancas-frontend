@@ -7,8 +7,8 @@ function ApiService(props) {
         baseURL: "http://localhost:8080"
     })
     
-    const post = (url, objeto) => {
-        return httpClient.post(apiUrl + url, objeto)
+    const post = (url, objeto, config) => {
+        return httpClient.post(apiUrl + url, objeto, config)
     }
     
     const put = (url, objeto) => {

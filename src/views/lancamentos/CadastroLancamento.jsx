@@ -1,24 +1,27 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import ButtonGroup from "../../components/button-group"
 import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
 import SelectMenu from "../../components/select-menu"
-import LancamentoService from "../../service/LancamentoService"
 import * as messages from "../../components/toastr"
+import LancamentoService from "../../service/LancamentoService"
 import LocalStorage from "../../service/localstorageService"
-import { useNavigate } from "react-router-dom"
 
 function CadastroLancamento() {
 
     const [lancamento, setLancamento] = useState({
-        id: null,
-        descricao: null,
-        valor: null,
-        mes: null,
-        ano: null,
-        tipo: null,
-        status: null
+        id: '',
+        descricao: '',
+        valor: '',
+        mes: '',
+        ano: '',
+        tipo: '',
+        status: '',
+        usuarioId: ''
     })
+    const [atualizando, setAtualizando] = useState(false)
+    const {id} = useParams()
     
     const navigate = useNavigate()
     const lancamentoService = LancamentoService()
@@ -46,15 +49,43 @@ function CadastroLancamento() {
         
     }
 
+    const atualizar = async () => {
+        const {id, descricao, valor, mes, ano, tipo, status, usuarioId} = lancamento
+        const lancamentoRequest = {id, descricao, valor, mes, ano, tipo, status, usuarioId}
+
+        await lancamentoService.atualizar("", lancamentoRequest)
+        .then(() => {
+            navigate("/lancamentos")
+            messages.mensagemSucesso("Lançamento atualizado com sucesso!")
+        }).catch(() => {
+            messages.mensagemErro("Error ao atualizar um lançamento! Verifique os campos obrigatorios.")
+        })
+    }
+
+    useEffect(() => {
+        if(id) {
+            lancamentoService.buscarPorId(id)
+            .then(response => {
+                setLancamento({...response.data})
+                setAtualizando(true)
+            }).catch(error => {
+                console.log(error.response.data)
+            })
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
+    
     return (
         <>
             <div className="containei-cadastro-lancamento">
 
-                <Card label="Cadastro Lancamento">
+                <Card label={atualizando? "Atualização de Lançamento" : "Cadastro de Lançamento"}>
 
                     <FormGroup label="Descrição: *">
                         <input type="text" 
                                 name="descricao"
+                                value={lancamento.descricao}
                                 onChange={handleChange}
                                 className="form-control" 
                                 placeholder="Descrição...">
@@ -66,6 +97,7 @@ function CadastroLancamento() {
                             <FormGroup label="Ano: *">
                                 <input type="number" 
                                         name="ano"
+                                        value={lancamento.ano}
                                         onChange={handleChange}
                                         className="form-control" 
                                         placeholder="Ano...">
@@ -74,7 +106,7 @@ function CadastroLancamento() {
                         </div>
                         <div className="col-md-6">
                             <FormGroup label="Mês: *">
-                               <SelectMenu lista={listaMeses} name="mes" onChange={handleChange} />
+                                <SelectMenu lista={listaMeses} value={lancamento.mes} name="mes" onChange={handleChange} />
                             </FormGroup>
                         </div>
                     </div>
@@ -84,6 +116,7 @@ function CadastroLancamento() {
                             <FormGroup label="Valor: *">
                                 <input type="number" 
                                         name="valor"
+                                        value={lancamento.valor}
                                         onChange={handleChange}
                                         className="form-control" 
                                         placeholder="Valor...">
@@ -93,19 +126,23 @@ function CadastroLancamento() {
 
                         <div className="col-md-4">
                             <FormGroup label="Tipo: *">
-                                <SelectMenu lista={listaTipoLancamento} name="tipo" onChange={handleChange} />
+                                <SelectMenu lista={listaTipoLancamento} value={lancamento.tipo} name="tipo" onChange={handleChange} />
                             </FormGroup>
                         </div>
 
                         <div className="col-md-4">
                             <FormGroup label="Status: *">
-                                <input type="text" disabled className="form-control" />
+                                <input type="text" disabled className="form-control" value={lancamento.status} />
                             </FormGroup>
                         </div>
                     </div>
 
                     <ButtonGroup>
-                        <button onClick={salvarLancamento} type="button" className="btn btn-success">Salvar</button>
+                        {atualizando? (
+                            <button onClick={atualizar} type="button" className="btn btn-success">Atualizar</button>
+                        ) : (
+                            <button onClick={salvarLancamento} type="button" className="btn btn-success">Salvar</button>
+                        )}
                         <button onClick={() => navigate("/lancamentos")} type="button" className="btn btn-danger">Cancelar</button>
                     </ButtonGroup>
                     

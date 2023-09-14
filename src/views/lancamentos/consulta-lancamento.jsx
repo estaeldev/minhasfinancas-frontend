@@ -62,9 +62,9 @@ function ConsultaLancamento() {
     }
     
     const editar = (id) => {
-        console.log("Editando o lancamento id: ", id);
+        navigate(`/cadastro-lancamentos/${id}`)
     }
-
+    
     const cadastrar = () => {
         navigate("/cadastro-lancamentos")
     }

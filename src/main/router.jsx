@@ -13,7 +13,7 @@ function Rotas() {
             <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
             <Route path="/home" Component={Home}></Route>
             <Route path="/lancamentos" Component={ConsultaLancamento}></Route>
-            <Route path="/cadastro-lancamentos" Component={CadastroLancamento}></Route>
+            <Route path="/cadastro-lancamentos/:id?" Component={CadastroLancamento}></Route>
         </Routes>
     )
 }

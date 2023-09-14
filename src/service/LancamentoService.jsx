@@ -5,7 +5,7 @@ function LancamentoService() {
     const apiService = ApiService({apiUrl: "/api/lancamentos"})
 
     const obterListaMeses = [
-        {label: "Selecione...", value:""},
+        {label: "Selecione...", value: ""},
         {label: "Janeiro", value:1},
         {label: "Fevereiro", value:2},
         {label: "Março", value:3},
@@ -37,6 +37,10 @@ function LancamentoService() {
             }
         })
     }
+
+    const buscarPorId = (id) => {
+        return apiService.get(`/${id}`)
+    }
     
     const deletar = (id) => {
         return apiService.remove(`/${id}`)
@@ -45,9 +49,13 @@ function LancamentoService() {
     const salvar = (url, object, config) => {
         return apiService.post(url, object, config)
     }
+
+    const atualizar = (url, object) => {
+        return apiService.put(url, object)
+    }
     
     return (
-        {buscar, deletar, salvar, obterListaMeses, obterTiposLancamento}
+        {buscar, deletar, salvar, buscarPorId, atualizar,obterListaMeses, obterTiposLancamento}
     )
     
 }

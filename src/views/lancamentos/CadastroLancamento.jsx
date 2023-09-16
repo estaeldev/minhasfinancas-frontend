@@ -36,8 +36,15 @@ function CadastroLancamento() {
     
     const salvarLancamento = async () => {
         const {id} = LocalStorage().getItem("_usuarioLogado")
-        const {descricao, valor, mes, ano, tipo} = lancamento
-        const lancamentoRequest = {descricao, valor, mes, ano, tipo, usuarioId: id}
+        const lancamentoRequest = {...lancamento, usuarioId: id}
+        
+        try {
+            lancamentoService.validar(lancamentoRequest)
+        } catch (error) {
+            const mensagens = error.mensagens
+            mensagens.forEach(msg => messages.mensagemErro(msg))
+            return false
+        }
 
         await lancamentoService.salvar("", lancamentoRequest, null)
         .then(() => {

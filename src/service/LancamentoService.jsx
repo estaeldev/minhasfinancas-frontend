@@ -1,4 +1,5 @@
 import ApiService from "../config/apiconfig";
+import ErroValidacao from "../exception/ErroValidacao";
 
 function LancamentoService() {
     
@@ -53,9 +54,34 @@ function LancamentoService() {
     const atualizar = (url, object) => {
         return apiService.put(url, object)
     }
+
+    const validar = (lancamento) => {
+        const erros = []
+
+        if(!lancamento.ano) {
+            erros.push("Informe o ano.")
+        }
+        if(!lancamento.mes) {
+            erros.push("Informe o mes.")
+        }
+        if(!lancamento.descricao) {
+            erros.push("Informe a descrição.")
+        }
+        if(!lancamento.valor) {
+            erros.push("Informe o valor.")
+        }
+        if(!lancamento.tipo) {
+            erros.push("Informe o tipo.")
+        }
+
+        if(erros.length > 0) {
+            throw new ErroValidacao(erros)
+        }
+        
+    }
     
     return (
-        {buscar, deletar, salvar, buscarPorId, atualizar,obterListaMeses, obterTiposLancamento}
+        {buscar, deletar, salvar, buscarPorId, atualizar, validar, obterListaMeses, obterTiposLancamento}
     )
     
 }

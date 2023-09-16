@@ -30,7 +30,7 @@ function ConsultaLancamento() {
         const ano = lancamentoFiltro.ano
         if(!ano || String(ano).length !== 4) {
             mensagemErro("Informe um ano válido para filtrar.")
-            return false
+            return
         }
         
         const {id} = LocalStorage().getItem("_usuarioLogado")
@@ -75,6 +75,22 @@ function ConsultaLancamento() {
         setLancamentoFiltro({...lancamentoFiltro, [nome]: value})
     }
 
+    const alterarStatus = async (lancamento, status) => {
+        await lancamentoService.alterarStatus(lancamento.id, status)
+        .then(() => {
+            const index = lancamentos.indexOf(lancamento)
+            if(index !== -1) {
+                lancamento['status'] = status
+                lancamentos[index] = lancamento
+                setLancamentos([...lancamentos])
+            }
+            mensagemSucesso("Status atualizado com sucesso!")
+        })
+        .catch(() => {
+            mensagemErro("Error ao tentar atualizar o status! Tente novamente.")
+        })
+    }
+
     return (
         <>
             <div className="container-consulta-lacamento">
@@ -109,13 +125,26 @@ function ConsultaLancamento() {
                     </FormGroup>
                     
                     <ButtonGroup>
-                        <button onClick={buscar} type="button" className="btn btn-success">Buscar</button>
-                        <button onClick={cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                        <button onClick={buscar} 
+                                type="button" 
+                                className="btn btn-success">
+                                <i className="pi pi-search"></i> Buscar
+                        </button>
+                        <button onClick={cadastrar} 
+                                type="button" 
+                                className="btn btn-primary">
+                                <i className="pi pi-plus"></i> Cadastrar
+                        </button>
                     </ButtonGroup>
                     
                 </Card>
 
-                <LancamentoTable lancamentos={lancamentos} editarAction={editar} deletarAction={setDialogDelete} />
+                <LancamentoTable lancamentos={lancamentos} 
+                                 editarAction={editar} 
+                                 deletarAction={setDialogDelete} 
+                                 alterarStatus={alterarStatus} >
+
+                </LancamentoTable>
                 
                 <ConfirmDialog  visible={showDialogDelete.visible} 
                                 onHide={() => setDialogDelete({visible: false})} 

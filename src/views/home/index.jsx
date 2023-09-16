@@ -31,8 +31,14 @@ function Home() {
                     <hr className="my-4"></hr>
                     <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
                     <ButtonGroup>
-                        <Link className="btn btn-primary btn-lg" to={"/cadastro-usuario"}>Cadastrar Usuário</Link>
-                        <Link className="btn btn-danger btn-lg" to={"/cadastro-lancamentos"}>Cadastrar Lançamento</Link>
+                        <Link className="btn btn-primary btn-lg" 
+                              to={"/cadastro-usuario"}>
+                              <i className="pi pi-users"></i> Cadastrar Usuário
+                        </Link>
+                        <Link className="btn btn-danger btn-lg"
+                              to={"/cadastro-lancamentos"}>
+                              <i className="pi pi-money-bill"></i> Cadastrar Lançamento
+                        </Link>
                     </ButtonGroup>
                 </div>
             </div>

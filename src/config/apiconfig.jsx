@@ -15,6 +15,10 @@ function ApiService(props) {
         return httpClient.put(apiUrl + url, objeto)
     }
 
+    const patch = (url, objeto, config) => {
+        return httpClient.patch(apiUrl + url, objeto, config)
+    }
+    
     const remove = (url) => {
         return httpClient.delete(apiUrl + url)
     }   
@@ -24,7 +28,7 @@ function ApiService(props) {
     }
     
     return {
-        post, put, remove, get
+        post, put, remove, get, patch
     }
     
 }

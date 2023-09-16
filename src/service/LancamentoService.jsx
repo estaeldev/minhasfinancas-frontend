@@ -55,6 +55,14 @@ function LancamentoService() {
         return apiService.put(url, object)
     }
 
+    const alterarStatus = (id, status) => {
+        return apiService.patch(`/${id}`, null, {
+            params: {
+                status: status
+            }
+        })
+    }
+    
     const validar = (lancamento) => {
         const erros = []
 
@@ -81,7 +89,7 @@ function LancamentoService() {
     }
     
     return (
-        {buscar, deletar, salvar, buscarPorId, atualizar, validar, obterListaMeses, obterTiposLancamento}
+        {buscar, deletar, salvar, buscarPorId, atualizar, validar, alterarStatus, obterListaMeses, obterTiposLancamento}
     )
     
 }

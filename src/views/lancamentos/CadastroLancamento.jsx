@@ -27,7 +27,7 @@ function CadastroLancamento() {
     const lancamentoService = LancamentoService()
     const listaTipoLancamento = lancamentoService.obterTiposLancamento
     const listaMeses = lancamentoService.obterListaMeses
-
+    
     const handleChange = (event) => {
         const value = event.target.value
         const nome = event.target.name
@@ -146,11 +146,24 @@ function CadastroLancamento() {
 
                     <ButtonGroup>
                         {atualizando? (
-                            <button onClick={atualizar} type="button" className="btn btn-success">Atualizar</button>
+                            <button onClick={atualizar} 
+                                    type="button" 
+                                    className="btn btn-success">
+                                    <i className="pi pi-refresh"></i> Atualizar
+                            </button>
                         ) : (
-                            <button onClick={salvarLancamento} type="button" className="btn btn-success">Salvar</button>
+                            <button onClick={salvarLancamento} 
+                                    type="button" 
+                                    className="btn btn-success">
+                                    <i className="pi pi-save"></i> Salvar
+                            </button>
                         )}
-                        <button onClick={() => navigate("/lancamentos")} type="button" className="btn btn-danger">Cancelar</button>
+                        <button onClick={() => 
+                                navigate("/lancamentos")} 
+                                type="button" 
+                                className="btn btn-danger">
+                                <i className="pi pi-times"></i> Cancelar
+                        </button>
                     </ButtonGroup>
                     
                 </Card>

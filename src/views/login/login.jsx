@@ -55,8 +55,16 @@ function Login() {
                     </FormGroup>
                     
                     <ButtonGroup>
-                        <button onClick={entrar} type="button" className="btn btn-success">Entrar</button>
-                        <button onClick={cadastrar} type="button" className="btn btn-danger">Cadastrar</button>
+                        <button onClick={entrar} 
+                                type="button" 
+                                className="btn btn-success">
+                                <i className="pi pi-sign-in"></i> Entrar
+                        </button>
+                        <button onClick={cadastrar} 
+                                type="button" 
+                                className="btn btn-primary">
+                                <i className="pi pi-plus"></i> Cadastrar
+                        </button>
                     </ButtonGroup>
                     
                 </Card>

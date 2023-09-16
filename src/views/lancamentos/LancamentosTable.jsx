@@ -7,6 +7,7 @@ function LancamentoTable(props) {
     const lancamentos = props.lancamentos
     const editar = props.editarAction
     const setDialogDelete = props.deletarAction
+    const alterarStatus = props.alterarStatus
 
     return (
         <>
@@ -34,15 +35,31 @@ function LancamentoTable(props) {
                                 <td>{lancamento.status}</td>
                                 <td>
                                     <ButtonGroup> 
+                                        <button onClick={() => alterarStatus(lancamento, "EFETIVADO")}
+                                                disabled={lancamento.status !== "PENDENTE"} 
+                                                type="button" 
+                                                className="btn btn-success" 
+                                                title="Efetivar">
+                                                <i className="pi pi-check"></i>
+                                        </button>   
+                                        <button onClick={() => alterarStatus(lancamento, "CANCELADO")} 
+                                                disabled={lancamento.status !== "PENDENTE"} 
+                                                type="button" 
+                                                className="btn btn-warning" 
+                                                title="Cancelar">
+                                                <i className="pi pi-times"></i>
+                                        </button>
                                         <button onClick={() => editar(lancamento.id)} 
                                                 type="button" 
-                                                className="btn btn-primary">
-                                                Editar
+                                                className="btn btn-primary" 
+                                                title="Editar">
+                                                <i className="pi pi-pencil"></i>
                                         </button>
                                         <button onClick={() => setDialogDelete({visible: true, lancamento: lancamento})} 
                                                 type="button" 
-                                                className="btn btn-danger">
-                                                Deletar
+                                                className="btn btn-danger" 
+                                                title="Excluir">
+                                                <i className="pi pi-trash"></i>
                                         </button>
                                     </ButtonGroup>
                                 </td>

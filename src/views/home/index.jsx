@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ButtonGroup from "../../components/button-group";
-import LocalStorage from "../../service/localstorageService";
+import useProvedorAutenticacaoContext from "../../hook/useProvedorAutenticacaoContext";
 import UsuarioService from "../../service/usuarioService";
 import "./style.scss";
 
 function Home() {
     const [saldo, setSaldo] = useState(0)
     const usuarioService = UsuarioService()
-    const localStorageService = LocalStorage()
-
+    const {usuarioAutenticado} = useProvedorAutenticacaoContext()
+    
     useEffect(() => {
-        const usuarioLogado = localStorageService.getItem("_usuarioLogado")
-        usuarioService.obterSaldoPorIdUsuario(`${usuarioLogado.id}`)
+        const usuario = usuarioAutenticado.usuario
+        usuarioService.obterSaldoPorIdUsuario(`${usuario.id}`)
         .then(response => {
             setSaldo(response.data)
         }).catch(() => {
             setSaldo(0)
         })
-
-    }, [usuarioService, localStorageService])
+        
+    }, [usuarioService, usuarioAutenticado])
     
     return (
         <>

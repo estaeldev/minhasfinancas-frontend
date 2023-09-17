@@ -16,7 +16,15 @@ function AuthService() {
         LocalStorageService().removerItem(USUARIO_LOGADO)
     }
 
-    return {isUsuarioAutenticado, removerUsuarioAutenticado}
+    const logar = (usuario) => {
+        LocalStorageService().addItem(USUARIO_LOGADO, usuario)
+    }
+    
+    const obterUsuarioAutenticado = () => {
+       return LocalStorageService().getItem(USUARIO_LOGADO)
+    }
+
+    return {isUsuarioAutenticado, removerUsuarioAutenticado, logar, obterUsuarioAutenticado}
 
 }
 

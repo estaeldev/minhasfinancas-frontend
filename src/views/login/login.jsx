@@ -1,26 +1,26 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import ButtonGroup from "../../components/button-group"
+import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
 import { mensagemErro, mensagemSucesso } from "../../components/toastr"
-import LocalStorage from "../../service/localstorageService"
+import useProvedorAutenticacaoContext from "../../hook/useProvedorAutenticacaoContext"
 import UsuarioService from "../../service/usuarioService"
 import "./login.scss"
-import Card from "../../components/card"
-import ButtonGroup from "../../components/button-group"
 
 function Login() {
     const [email, setEmail] = useState("") 
     const [senha, setSenha] = useState("")
     const navigate = useNavigate()
     const service = UsuarioService()
-    const localStorageService = LocalStorage()
+    const {iniciarSessao} = useProvedorAutenticacaoContext()
     
     const entrar = async () => {
         await service.autenticar({
             email: email,
             senha: senha
         }).then((response) => {
-            localStorageService.addItem("_usuarioLogado", response.data)
+            iniciarSessao(response.data)
             mensagemSucesso("Usuario logado com sucesso!")
             navigate("/home")
         }).catch(error => {

@@ -6,19 +6,21 @@ import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
 import SelectMenu from "../../components/select-menu"
 import { mensagemAlerta, mensagemErro, mensagemSucesso } from "../../components/toastr"
+import useProvedorAutenticacaoContext from "../../hook/useProvedorAutenticacaoContext"
 import LancamentoService from "../../service/LancamentoService"
-import LocalStorage from "../../service/localstorageService"
 import LancamentoTable from "./LancamentosTable"
 import "./style.scss"
 
 function ConsultaLancamento() {
 
+    const {usuarioAutenticado} = useProvedorAutenticacaoContext()
+
     const [lancamentoFiltro, setLancamentoFiltro] = useState({
-        ano: null,
-        mes: null,
-        tipo: null,
-        descricao: null,
-        usuarioId: null
+        ano: "",
+        mes: "",
+        tipo: "",
+        descricao: "",
+        usuarioId: ""
     })
     const [lancamentos, setLancamentos] = useState([])
     const [showDialogDelete, setDialogDelete] = useState({visible: false, lancamento: null})
@@ -33,7 +35,7 @@ function ConsultaLancamento() {
             return
         }
         
-        const {id} = LocalStorage().getItem("_usuarioLogado")
+        const {id} = usuarioAutenticado.usuario
 
         await lancamentoService.buscar({...lancamentoFiltro, usuarioId: id})
         .then(response => {

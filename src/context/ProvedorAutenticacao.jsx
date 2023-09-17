@@ -1,12 +1,12 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import AuthService from "../service/AuthService"
 
-
 export const AuthContext = React.createContext()
-export const AuthConsumer = AuthContext.Consumer
 
 function ProvedorAutenticacao(props) {
-
+    
+    const AuthProvider = AuthContext.Provider
+    
     const [usuarioAutenticado, setUsuarioAutenticado] = useState({
         usuario: null,
         isAutenticado: false
@@ -16,23 +16,31 @@ function ProvedorAutenticacao(props) {
         AuthService().logar(usuario)
         setUsuarioAutenticado({usuario: usuario, isAutenticado: true})
     }   
-
+    
     const encerrarSessao = () => {
         AuthService().removerUsuarioAutenticado()
         setUsuarioAutenticado({usuario: null, isAutenticado: false})
     }
-    
+
     const context = {
-        usuarioAutenticado: usuarioAutenticado,
-        iniciarSessao,
-        encerrarSessao
+        usuarioAutenticado, setUsuarioAutenticado, iniciarSessao, encerrarSessao
     }
+
+    useEffect(() => {
+        if(AuthService().isUsuarioAutenticado()) {
+            const usuario = AuthService().obterUsuarioAutenticado()
+            setUsuarioAutenticado({usuario, isAutenticado: true})
+        } else {
+            encerrarSessao()
+        }
+        
+    }, [])
     
     return (
         <>  
-            <AuthContext.Provider value={context}>
+            <AuthProvider value={context}>
                 {props.children}
-            </AuthContext.Provider>
+            </AuthProvider>
         </>
     )
     

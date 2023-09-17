@@ -5,20 +5,22 @@ import Card from "../../components/card"
 import FormGroup from "../../components/form-group"
 import SelectMenu from "../../components/select-menu"
 import * as messages from "../../components/toastr"
+import useProvedorAutenticacaoContext from "../../hook/useProvedorAutenticacaoContext"
 import LancamentoService from "../../service/LancamentoService"
-import LocalStorage from "../../service/localstorageService"
 
 function CadastroLancamento() {
 
+    const {usuarioAutenticado} = useProvedorAutenticacaoContext()
+    
     const [lancamento, setLancamento] = useState({
-        id: '',
-        descricao: '',
-        valor: '',
-        mes: '',
-        ano: '',
-        tipo: '',
-        status: '',
-        usuarioId: ''
+        id: "",
+        descricao: "",
+        valor: "",
+        mes: "",
+        ano: "",
+        tipo: "",
+        status: '' | undefined,
+        usuarioId: ""
     })
     const [atualizando, setAtualizando] = useState(false)
     const {id} = useParams()
@@ -35,7 +37,7 @@ function CadastroLancamento() {
     }
     
     const salvarLancamento = async () => {
-        const {id} = LocalStorage().getItem("_usuarioLogado")
+        const {id} = usuarioAutenticado.usuario
         const lancamentoRequest = {...lancamento, usuarioId: id}
         
         try {
@@ -139,7 +141,7 @@ function CadastroLancamento() {
 
                         <div className="col-md-4">
                             <FormGroup label="Status: *">
-                                <input type="text" disabled className="form-control" value={lancamento.status} />
+                                <input type="text" disabled className="form-control" value={lancamento.status? lancamento.status : ""} />
                             </FormGroup>
                         </div>
                     </div>
@@ -158,8 +160,7 @@ function CadastroLancamento() {
                                     <i className="pi pi-save"></i> Salvar
                             </button>
                         )}
-                        <button onClick={() => 
-                                navigate("/lancamentos")} 
+                        <button onClick={() => navigate("/lancamentos")} 
                                 type="button" 
                                 className="btn btn-danger">
                                 <i className="pi pi-times"></i> Cancelar

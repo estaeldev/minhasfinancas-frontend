@@ -26,7 +26,7 @@ function Home() {
             <div className="navbar navbar-expand-lg bg-light container-home">
                 <div className="jumbotron">
                     <h1 className="display-3">Bem vindo!</h1>
-                    <p className="lead">Esse é seu sistema de finanças.</p>
+                    <p style={{fontSize: "20px"}}> <strong>{usuarioAutenticado.usuario.nome}</strong>, Esse é seu sistema de finanças.</p>
                     <p className="lead">Seu saldo para o mês atual é de R$ {saldo}</p>
                     <hr className="my-4"></hr>
                     <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>

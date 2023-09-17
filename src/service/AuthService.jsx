@@ -5,13 +5,10 @@ function AuthService() {
     const USUARIO_LOGADO = "_usuarioLogado"
 
     const isUsuarioAutenticado = () => {
-        const usuario = LocalStorageService().getItem(USUARIO_LOGADO)
-        if(usuario !== null | undefined && usuario.id !== null | undefined) {
-            return true
-        }
-        
+        const usuario = obterUsuarioAutenticado()
+        return !!(usuario !== null | undefined && usuario.id !== null | undefined);
     }
-
+    
     const removerUsuarioAutenticado = () => {
         LocalStorageService().removerItem(USUARIO_LOGADO)
     }

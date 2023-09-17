@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import useProvedorAutenticacaoContext from "../hook/useProvedorAutenticacaoContext";
 import CadastroUsuario from "../views/cadastro/cadastroUsuario";
 import Home from "../views/home";
@@ -8,32 +8,29 @@ import ConsultaLancamento from "../views/lancamentos/consulta-lancamento";
 import Login from "../views/login/login";
 
 function Rotas() {
-
+    
     const {usuarioAutenticado} = useProvedorAutenticacaoContext()
 
     return (
         <Routes>
-            <Route path="/login" Component={Login}></Route>
-            <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
 
-            <Route path="/home" element={usuarioAutenticado.isAutenticado ? 
-                <Home />
-             : 
-                <Navigate to={"/login"} />
-            } />
-
-            <Route path="/lancamentos" element={usuarioAutenticado.isAutenticado ? 
-                <ConsultaLancamento />
-             : 
-                <Navigate to={"/login"} />
-            } />
-
-            <Route path="/cadastro-lancamentos/:id?" element={usuarioAutenticado.isAutenticado ? 
-                <CadastroLancamento />
-             : 
-                <Navigate to={"/login"} />
-            } />
-            
+            {usuarioAutenticado.isAutenticado? 
+            <>  
+                <Route path="/" Component={Home}></Route>
+                <Route path="/home" Component={Home}></Route> 
+                <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
+                <Route path="/lancamentos" Component={ConsultaLancamento}></Route>
+                <Route path="/cadastro-lancamentos/:id?" Component={CadastroLancamento}></Route>
+            </> 
+            : 
+            <>
+                <Route path="/" Component={Login}></Route>
+                <Route path="/home" Component={Login}></Route> 
+                <Route path="/login" Component={Login}></Route>
+                <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
+                <Route path="/lancamentos" Component={Login}></Route>
+                <Route path="/cadastro-lancamentos/:id?" Component={Login}></Route>
+            </>}
 
         </Routes>
     )

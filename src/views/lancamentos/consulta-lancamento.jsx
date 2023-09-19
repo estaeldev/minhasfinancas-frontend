@@ -110,11 +110,11 @@ function ConsultaLancamento() {
                     </FormGroup>
 
                     <FormGroup label="Descrição:">
-                        <input type="text" 
+                        <input type="text"
                                 name="descricao"
                                 onChange={handleChange}
                                 className="form-control" 
-                                placeholder="Digite o ano">
+                                placeholder="Digite a descrição">
                         </input>
                     </FormGroup>
                     

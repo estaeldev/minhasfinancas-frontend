@@ -24,12 +24,9 @@ function Rotas() {
             </> 
             : 
             <>
-                <Route path="/" Component={Login}></Route>
-                <Route path="/home" Component={Login}></Route> 
+                <Route path="/*" Component={Login}></Route>
                 <Route path="/login" Component={Login}></Route>
                 <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
-                <Route path="/lancamentos" Component={Login}></Route>
-                <Route path="/cadastro-lancamentos/:id?" Component={Login}></Route>
             </>}
 
         </Routes>

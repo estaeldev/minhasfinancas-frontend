@@ -4,7 +4,7 @@ function ApiService(props) {
     const apiUrl = props.apiUrl
     
     const httpClient = axios.create({
-        baseURL: "http://localhost:8080"
+        baseURL: "http://localhost:9000"
     })
     
     const post = (url, objeto, config) => {

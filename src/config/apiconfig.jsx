@@ -1,11 +1,12 @@
 import axios from "axios";
 
+const httpClient = axios.create({
+    baseURL: "http://localhost:9000",
+    withCredentials: true
+});
+
 function ApiService(props) {
     const apiUrl = props.apiUrl
-    
-    const httpClient = axios.create({
-        baseURL: "http://localhost:9000"
-    })
     
     const post = (url, objeto, config) => {
         return httpClient.post(apiUrl + url, objeto, config)
@@ -26,11 +27,18 @@ function ApiService(props) {
     const get = (url, config) => {
         return httpClient.get(apiUrl + url, config)
     }
-    
+
     return {
         post, put, remove, get, patch
     }
-    
+
 }
+
+export function registrarToken(token) {
+    if(token) {
+        httpClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+}
+
 
 export default ApiService

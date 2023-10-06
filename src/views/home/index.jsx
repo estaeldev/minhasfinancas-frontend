@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ButtonGroup from "../../components/button-group";
+import * as mensagem from "../../components/toastr";
 import useProvedorAutenticacaoContext from "../../hook/useProvedorAutenticacaoContext";
 import UsuarioService from "../../service/usuarioService";
 import "./style.scss";
@@ -8,7 +9,7 @@ import "./style.scss";
 function Home() {
     const [saldo, setSaldo] = useState(0)
     const usuarioService = UsuarioService()
-    const {usuarioAutenticado} = useProvedorAutenticacaoContext()
+    const {usuarioAutenticado, encerrarSessao} = useProvedorAutenticacaoContext()
     
     useEffect(() => {
         const usuario = usuarioAutenticado.usuario
@@ -16,10 +17,11 @@ function Home() {
         .then(response => {
             setSaldo(response.data)
         }).catch(() => {
-            setSaldo(0)
+            encerrarSessao()
+            mensagem.mensagemErro("Seu Token está invalido, por favor faça login novamente!")
         })
         
-    }, [usuarioService, usuarioAutenticado])
+    }, [encerrarSessao, usuarioAutenticado.usuario, usuarioService])
     
     return (
         <>

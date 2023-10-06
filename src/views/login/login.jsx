@@ -16,20 +16,14 @@ function Login() {
     const {iniciarSessao} = useProvedorAutenticacaoContext()
     
     const entrar = async () => {
-        await service.autenticar({
-            email: email,
-            senha: senha
-        }).then((response) => {
-            iniciarSessao(response.data)
+        await service.autenticar({email, senha})
+        .then((response) => {
+            iniciarSessao(response.data.token)
             mensagemSucesso("Usuario logado com sucesso!")
             navigate("/home")
         }).catch(error => {
             mensagemErro(error.response.data.message)
         })
-    }
-    
-    const cadastrar = () => {
-        navigate('/cadastro-usuario');
     }
 
     return (
@@ -60,7 +54,7 @@ function Login() {
                                 className="btn btn-success">
                                 <i className="pi pi-sign-in"></i> Entrar
                         </button>
-                        <button onClick={cadastrar} 
+                        <button onClick={() => navigate("/cadastro-usuario")} 
                                 type="button" 
                                 className="btn btn-primary">
                                 <i className="pi pi-plus"></i> Cadastrar

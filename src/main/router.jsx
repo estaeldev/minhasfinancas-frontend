@@ -16,7 +16,7 @@ function Rotas() {
 
             {usuarioAutenticado.isAutenticado? 
             <>  
-                <Route path="/" Component={Home}></Route>
+                <Route path="/*" Component={Home}></Route>
                 <Route path="/home" Component={Home}></Route> 
                 <Route path="/cadastro-usuario" Component={CadastroUsuario}></Route>
                 <Route path="/lancamentos" Component={ConsultaLancamento}></Route>

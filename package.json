@@ -10,6 +10,7 @@
     "axios": "^1.5.0",
     "bootswatch": "^5.3.1",
     "currency-formatter": "^1.5.9",
+    "jwt-decode": "^3.1.2",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.2",
     "react": "^18.2.0",

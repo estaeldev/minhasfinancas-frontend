@@ -8,8 +8,8 @@ function LocalStorage() {
         return JSON.parse(localStorage.getItem(chave))
     }   
 
-    const removerItem = (cheve) => {
-        localStorage.removeItem(cheve)
+    const removerItem = (chave) => {
+        localStorage.removeItem(chave)
     }
     
     return {addItem, getItem, removerItem}
